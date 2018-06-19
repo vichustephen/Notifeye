@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fireTopLayout"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:keepScreenOn="true">
+
+    <com.seven.zion.blinknotifier.CameraSourcePreview
+        android:id="@+id/firePreview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.seven.zion.blinknotifier.GraphicOverlay
+            android:id="@+id/fireFaceOverlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"/>
+    </com.seven.zion.blinknotifier.CameraSourcePreview>
+
+    <Button
+        android:id="@+id/counts"
+        android:layout_width="121dp"
+        android:layout_height="24dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:background="@drawable/button_deisgn"
+        android:layout_marginBottom="30dp"
+        android:text="0"
+        android:textSize="18sp" />
+</FrameLayout>

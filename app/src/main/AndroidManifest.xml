@@ -2,8 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.seven.zion.blinknotifier">
 
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -19,12 +18,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".LivePreviewActivity" />
+
+        <meta-data
+            android:name="com.google.firebase.ml.vision.DEPENDENCIES"
+            android:value="face" />
 
         <service
             android:name=".BackgroundService"
             android:enabled="true"
             android:exported="true" />
-
+        <service
+            android:name=".eyeBlinkDetector"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>
