@@ -1,3 +1,13 @@
 <resources>
-    <string name="app_name">BlinkNotifier</string>
+    <string name="app_name">Notifeye</string>
+    <string name="snooze_disabled">Snooze disabled</string>
+    <string name="set_snooze_time">Set snooze time</string>
+    <string name="show_notification">Show Notification</string>
+    <string name="set_number_of_blinks">Set Number Of Blinks</string>
+    <string name="tap_to_activate_notifeye">Tap to activate notifeye</string>
+    <string name="set_duration">Set duration</string>
+    <string name="x_blinks">X blinks</string>
+    <string name="x_minutes">X minutes</string>
+    <string name="blink_info">Please look at the camera and blink slowly.There must be an interval of atleast 2 seconds per blink for accurate detection</string>
+    <string name="blink_screen_info">Please look at the camera and start blinking slowly</string>
 </resources>

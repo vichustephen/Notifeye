@@ -1,5 +1,6 @@
 package com.seven.zion.blinknotifier;
 
+import android.animation.ObjectAnimator;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -16,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
@@ -27,7 +29,7 @@ public class BackgroundService extends Service {
     int NOTIFY_ID = 200;
     cancelNotifyBroadcast cancelNotifyBroadcast;
     CountDownTimer timer,timer2;
-    RoundCornerProgressBar progressBar;
+    ProgressBar bar;
     private View exerciseView;
     WindowManager windowManager;
 
@@ -80,15 +82,11 @@ public class BackgroundService extends Service {
             @Override
             public void onFinish() {
 
-                windowManager.addView(exerciseView,params);
-                progressBar = (RoundCornerProgressBar)exerciseView.findViewById(R.id.rcBar);
-                progressBar.setProgressBackgroundColor(Color.BLACK);
-                progressBar.setProgressColor(Color.BLUE);
-                progressBar.setProgress(0);
-                progressBar.setMax(10);
-                progressBar.setRadius(20);
-                progressBar.setPadding(2);
+              //  windowManager.addView(exerciseView,params);
                 timer2.start();
+                startAnimate();
+                startActivity( new Intent(BackgroundService.this,LivePreviewActivity.class));
+                managerCompat.cancel(NOTIFY_ID);
             }
         };
         timer.start();
@@ -97,16 +95,23 @@ public class BackgroundService extends Service {
          timer2 = new CountDownTimer(10000,1000) {
             @Override
             public void onTick(long l) {
-                progressBar.setProgress(l/1000);
+               // progressBar.setProgress(l/1000);
             }
 
             @Override
             public void onFinish() {
-                windowManager.removeView(exerciseView);
+             //   windowManager.removeView(exerciseView);
                 timer.start();
             }
         };
+        bar = new ProgressBar(this);
+
     }
+
+    private void startAnimate() {
+
+    }
+
     @Override
     public void onTaskRemoved(Intent rootIntent) {
         super.onTaskRemoved(rootIntent);
@@ -130,8 +135,14 @@ public class BackgroundService extends Service {
             Log.i("Broadcast "," Cancelled");
             timer.cancel();
             timer2.cancel();
-            if (exerciseView != null)
-            windowManager.removeView(exerciseView);
+            try {
+                if (exerciseView != null)
+                    windowManager.removeView(exerciseView);
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
             NotificationManagerCompat managerCompat = NotificationManagerCompat.from(getApplicationContext());
             managerCompat.cancel(NOTIFY_ID);
             unregisterReceiver(cancelNotifyBroadcast);

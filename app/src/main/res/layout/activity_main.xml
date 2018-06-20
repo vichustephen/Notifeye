@@ -1,32 +1,184 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+ <RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/backgroundWhite"
     tools:context=".MainActivity">
 
-    <FrameLayout
-        android:id="@+id/preview"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight='1'>
 
-    </FrameLayout>
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Start" />
+    <ImageView
+        android:id="@+id/OnOffbutton"
+        android:layout_width="245dp"
+        android:layout_height="186dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="35dp"
+        android:padding="15dp"
+        app:srcCompat="@drawable/buttonoff" />
 
     <TextView
-        android:id="@+id/count"
+        android:id="@+id/activation_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="500dp"
-        android:layout_marginStart="200dp"
-        android:textSize="24sp" />
+        android:layout_alignParentStart="false"
+        android:layout_below="@+id/OnOffbutton"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="30dp"
+        android:text="@string/tap_to_activate_notifeye"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="12sp" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/set_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/no_of_blinks"
+        android:layout_marginBottom="25dp"
+        android:layout_marginStart="60dp"
+        android:text="@string/set_duration"
+        android:textColor="@color/backgroundBlack"
+        android:textSize="18sp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/set_duration"
+        android:layout_marginStart="15dp"
+        app:srcCompat="@drawable/baseline_schedule_black_36" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/type"
+        android:layout_marginStart="15dp"
+        app:srcCompat="@drawable/round_security_black_36" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/no_of_blinks"
+        android:layout_marginStart="15dp"
+        app:srcCompat="@drawable/baseline_remove_red_eye_black_36" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/show_notification"
+        android:layout_marginStart="15dp"
+        app:srcCompat="@drawable/baseline_notifications_active_black_36" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/snooze_text"
+        android:layout_marginStart="15dp"
+        app:srcCompat="@drawable/baseline_alarm_black_36" />
+
+    <TextView
+        android:id="@+id/no_of_blinks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/show_notification"
+        android:layout_marginBottom="25dp"
+        android:layout_marginStart="60dp"
+        android:text="@string/set_number_of_blinks"
+        android:textColor="@color/backgroundBlack"
+        android:textSize="18sp" />
+
+
+    <TextView
+        android:id="@+id/snooze_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/snooze_option"
+        android:layout_marginStart="60dp"
+        android:text="@string/set_snooze_time"
+        android:textColor="@color/backgroundBlack"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/duration_option"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/no_of_blinks"
+        android:layout_marginBottom="5dp"
+        android:layout_marginStart="60dp"
+        android:text="@string/x_minutes"
+        android:textColor="@color/option_color"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/blinks_option"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/show_notification"
+        android:layout_marginBottom="5dp"
+        android:layout_marginStart="60dp"
+        android:text="@string/x_blinks"
+        android:textColor="@color/option_color"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/snooze_option"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginStart="60dp"
+        android:text="@string/snooze_disabled"
+        android:textColor="@color/option_color"
+        android:textSize="14sp" />
+
+    <Switch
+        android:id="@+id/show_notification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/snooze_text"
+        android:layout_marginBottom="25dp"
+        android:layout_marginStart="60dp"
+        android:switchPadding="100dp"
+        android:text="@string/show_notification"
+        android:textColor="@color/backgroundBlack"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/set_duration"
+        android:layout_marginBottom="240dp"
+        android:text="Notifeye type"
+        android:textColor="@color/backgroundBlack"
+        android:textSize="18sp" />
+
+   <TextView
+       android:id="@+id/type_option"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_alignStart="@+id/set_duration"
+       android:layout_below="@+id/type"
+       android:layout_marginTop="-240dp"
+       android:text="Normal"
+       android:textColor="@color/option_color"
+       tools:text="Normal" />
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_margin="15dp"
+        app:srcCompat="@drawable/round_info_black_36" />
+
+</RelativeLayout>

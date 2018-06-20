@@ -1,35 +1,26 @@
 package com.seven.zion.blinknotifier;
 
-import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityCompat.OnRequestPermissionsResultCallback;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
+import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
-
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 public final class LivePreviewActivity extends AppCompatActivity implements FaceDetectionProcessor.countDetect,
         OnRequestPermissionsResultCallback{
     private static final String FACE_DETECTION = "Face Detection";
     private static final String TAG = "LivePreviewActivity";
-    private static final int PERMISSION_REQUESTS = 1;
     private CameraSource cameraSource = null;
     private CameraSourcePreview preview;
     private GraphicOverlay graphicOverlay;
     private String selectedModel = FACE_DETECTION;
     float Height,Width;
-    private Button countsView;
+    private Button countsView,skip;
     private int Originalcount = 0;
 
     @Override
@@ -38,6 +29,7 @@ public final class LivePreviewActivity extends AppCompatActivity implements Face
         Log.d(TAG, "onCreate");
         setContentView(R.layout.activity_live_preview);
         preview = (CameraSourcePreview) findViewById(R.id.firePreview);
+        skip = (Button)findViewById(R.id.skip);
         if (preview == null) {
             Log.d(TAG, "Preview is null");
         }
@@ -46,11 +38,14 @@ public final class LivePreviewActivity extends AppCompatActivity implements Face
             Log.d(TAG, "graphicOverlay is null");
         }
         countsView = (Button) findViewById(R.id.counts);
-        if (allPermissionsGranted()) {
-           createCameraSource(selectedModel);
-        } else {
-            getRuntimePermissions();
-        }
+        createCameraSource(selectedModel);
+        skip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LivePreviewActivity.this.finish();
+            }
+        });
+
     }
 
 
@@ -119,66 +114,6 @@ public final class LivePreviewActivity extends AppCompatActivity implements Face
             cameraSource.release();
         }
     }
-
-    private String[] getRequiredPermissions() {
-        try {
-            PackageInfo info =
-                    this.getPackageManager()
-                            .getPackageInfo(this.getPackageName(), PackageManager.GET_PERMISSIONS);
-            String[] ps = info.requestedPermissions;
-            if (ps != null && ps.length > 0) {
-                return ps;
-            } else {
-                return new String[0];
-            }
-        } catch (Exception e) {
-            return new String[0];
-        }
-    }
-
-    private boolean allPermissionsGranted() {
-        for (String permission : getRequiredPermissions()) {
-            if (!isPermissionGranted(this, permission)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private void getRuntimePermissions() {
-        List<String> allNeededPermissions = new ArrayList<>();
-        for (String permission : getRequiredPermissions()) {
-            if (!isPermissionGranted(this, permission)) {
-                allNeededPermissions.add(permission);
-            }
-        }
-
-        if (!allNeededPermissions.isEmpty()) {
-            ActivityCompat.requestPermissions(
-                    this, allNeededPermissions.toArray(new String[0]), PERMISSION_REQUESTS);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(
-            int requestCode, String[] permissions, int[] grantResults) {
-        Log.i(TAG, "Permission granted!");
-        if (allPermissionsGranted()) {
-            createCameraSource(selectedModel);
-        }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
-
-    private static boolean isPermissionGranted(Context context, String permission) {
-        if (ContextCompat.checkSelfPermission(context, permission)
-                == PackageManager.PERMISSION_GRANTED) {
-            Log.i(TAG, "Permission granted: " + permission);
-            return true;
-        }
-        Log.i(TAG, "Permission NOT granted: " + permission);
-        return false;
-    }
-
     @Override
     public void onCountDetected() {
         Originalcount++;
