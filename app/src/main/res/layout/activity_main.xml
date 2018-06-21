@@ -26,7 +26,7 @@
         android:layout_alignParentStart="false"
         android:layout_below="@+id/OnOffbutton"
         android:layout_centerInParent="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:text="@string/tap_to_activate_notifeye"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@android:color/darker_gray"
@@ -43,45 +43,50 @@
         android:textColor="@color/backgroundBlack"
         android:textSize="18sp" />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignTop="@+id/set_duration"
-        android:layout_marginStart="15dp"
-        app:srcCompat="@drawable/baseline_schedule_black_36" />
+   <ImageView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_alignParentStart="true"
+       android:layout_alignTop="@+id/set_duration"
+       android:layout_marginStart="15dp"
+       android:layout_marginTop="3dp"
+       app:srcCompat="@drawable/baseline_schedule_black_24" />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignTop="@+id/type"
-        android:layout_marginStart="15dp"
-        app:srcCompat="@drawable/round_security_black_36" />
+   <ImageView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_alignParentStart="true"
+       android:layout_marginTop="3dp"
+       android:layout_alignTop="@+id/type"
+       android:layout_marginStart="15dp"
+       app:srcCompat="@drawable/round_security_black_24" />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignTop="@+id/no_of_blinks"
-        android:layout_marginStart="15dp"
-        app:srcCompat="@drawable/baseline_remove_red_eye_black_36" />
+   <ImageView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_alignParentStart="true"
+       android:layout_alignTop="@+id/no_of_blinks"
+       android:layout_marginStart="15dp"
+       android:layout_marginTop="4dp"
+       app:srcCompat="@drawable/baseline_remove_red_eye_black_24" />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignTop="@+id/show_notification"
-        android:layout_marginStart="15dp"
-        app:srcCompat="@drawable/baseline_notifications_active_black_36" />
+   <ImageView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_alignParentStart="true"
+       android:layout_marginTop="4dp"
+       android:layout_alignTop="@+id/show_notification"
+       android:layout_marginStart="15dp"
+       app:srcCompat="@drawable/baseline_notifications_active_black_24" />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignTop="@+id/snooze_text"
-        android:layout_marginStart="15dp"
-        app:srcCompat="@drawable/baseline_alarm_black_36" />
+   <ImageView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_alignParentStart="true"
+       android:layout_alignTop="@+id/snooze_text"
+       android:layout_marginStart="15dp"
+       android:layout_marginTop="4dp"
+       app:srcCompat="@drawable/baseline_alarm_black_24" />
 
     <TextView
         android:id="@+id/no_of_blinks"
@@ -172,13 +177,13 @@
        android:textColor="@color/option_color"
        tools:text="Normal" />
 
-    <ImageView
-        android:id="@+id/imageView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_margin="15dp"
-        app:srcCompat="@drawable/round_info_black_36" />
+   <ImageView
+       android:id="@+id/imageView8"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_alignParentEnd="true"
+       android:layout_alignParentTop="true"
+       android:layout_margin="15dp"
+       app:srcCompat="@drawable/round_info_black_24" />
 
 </RelativeLayout>

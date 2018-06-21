@@ -49,11 +49,6 @@ public class FaceGraphic extends Graphic {
     boxPaint.setStyle(Paint.Style.STROKE);
     boxPaint.setStrokeWidth(BOX_STROKE_WIDTH);
   }
-
-  /**
-   * Updates the face instance from the detection of the most recent frame. Invalidates the relevant
-   * portions of the overlay to trigger a redraw.
-   */
   public void updateFace(FirebaseVisionFace face, int facing,int count) {
     firebaseVisionFace = face;
     this.facing = facing;
@@ -73,6 +68,7 @@ public class FaceGraphic extends Graphic {
     float x = translateX(face.getBoundingBox().centerX());
     float y = translateY(face.getBoundingBox().centerY());
     canvas.drawCircle(x, y, FACE_POSITION_RADIUS, facePositionPaint);
+    /*
     if (facing == CameraSource.CAMERA_FACING_FRONT) {
       canvas.drawText(
           "right eye: " + String.format("%.2f", face.getRightEyeOpenProbability()),
@@ -96,7 +92,8 @@ public class FaceGraphic extends Graphic {
           x + ID_X_OFFSET * 6,
           y,
           idPaint);
-    }
+    }*/
+
 
     // Draws a bounding box around the face.
     float xOffset = scaleX(face.getBoundingBox().width() / 2.0f);

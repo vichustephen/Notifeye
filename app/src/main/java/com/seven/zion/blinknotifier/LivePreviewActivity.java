@@ -1,5 +1,6 @@
 package com.seven.zion.blinknotifier;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat.OnRequestPermissionsResultCallback;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,8 @@ import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+
 import java.io.IOException;
 import java.util.Locale;
 
@@ -21,7 +24,8 @@ public final class LivePreviewActivity extends AppCompatActivity implements Face
     private String selectedModel = FACE_DETECTION;
     float Height,Width;
     private Button countsView,skip;
-    private int Originalcount = 0;
+    private TextView toGo;
+    private int Originalcount = 0,givenCount = 20;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +34,7 @@ public final class LivePreviewActivity extends AppCompatActivity implements Face
         setContentView(R.layout.activity_live_preview);
         preview = (CameraSourcePreview) findViewById(R.id.firePreview);
         skip = (Button)findViewById(R.id.skip);
+        toGo = (TextView)findViewById(R.id.toGo);
         if (preview == null) {
             Log.d(TAG, "Preview is null");
         }
@@ -112,11 +117,15 @@ public final class LivePreviewActivity extends AppCompatActivity implements Face
         super.onDestroy();
         if (cameraSource != null) {
             cameraSource.release();
+            sendBroadcast(new Intent("stopService").putExtra("real",true));
         }
     }
     @Override
     public void onCountDetected() {
         Originalcount++;
         countsView.setText(String.format(Locale.getDefault(),"%d",Originalcount));
+        if (Originalcount >= givenCount)
+            LivePreviewActivity.this.finish();
+
     }
 }

@@ -26,10 +26,11 @@
 
 
     <TextView
+        android:id="@+id/toGo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|bottom"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="70dp"
         android:text="X blinks to go"
         android:textColor="@color/backgroundBlack"
         android:textSize="13sp" />
@@ -38,7 +39,7 @@
         android:layout_width="330dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center|bottom"
-        android:layout_marginBottom="90dp"
+        android:layout_marginBottom="100dp"
         android:layout_marginStart="30dp"
         android:text="@string/blink_screen_info"
         android:textColor="@color/backgroundBlack"
@@ -46,7 +47,7 @@
 
     <ImageView
         android:layout_marginStart="20dp"
-        android:layout_marginBottom="90dp"
+        android:layout_marginBottom="100dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"

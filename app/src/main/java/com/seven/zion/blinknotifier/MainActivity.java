@@ -1,64 +1,111 @@
 package com.seven.zion.blinknotifier;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener,dialogBox.optionListener{
     ImageView onOff;
-    TextView counts;
+    TextView Ntype,typeOption,noOfBlinks,noOfBlinksOption,duration,durationOption,snooze,snoozeOption,activate;
     public static final int DRAW_OVER_OTHER_APPS = 101;
     private boolean on_off = false;
+    SharedPreferences sharedPreferences;
+    serviceStoppedBroadcast stoppedBroadcast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        stoppedBroadcast = new serviceStoppedBroadcast();
+        registerReceiver(stoppedBroadcast,new IntentFilter("serviceStopped"));
         onOff = (ImageView) findViewById(R.id.OnOffbutton);
-        final RotateAnimation animation = new RotateAnimation(0.0f,360.0f, Animation.RELATIVE_TO_SELF,0.5f
-        ,Animation.RELATIVE_TO_SELF,0.5f);
-        animation.setInterpolator(new LinearInterpolator());
-        animation.setRepeatCount(0);
-        animation.setDuration(400);
+        Ntype = (TextView)findViewById(R.id.type);
+        typeOption = (TextView)findViewById(R.id.type_option);
+        noOfBlinks = (TextView)findViewById(R.id.no_of_blinks);
+        noOfBlinksOption = (TextView)findViewById(R.id.blinks_option);
+        duration = (TextView)findViewById(R.id.set_duration);
+        durationOption = (TextView)findViewById(R.id.duration_option);
+        snooze = (TextView)findViewById(R.id.snooze_text);
+        snoozeOption = (TextView)findViewById(R.id.snooze_option);
+        activate = (TextView)findViewById(R.id.activation_text);
+        sharedPreferences = getApplicationContext().getSharedPreferences("notifeye", Context.MODE_PRIVATE);
+        on_off = sharedPreferences.getBoolean("Activation",false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this)) {
+            requestPerms();
+        }
+        if(on_off)
+        {
+            activate.setText(R.string.activated);
+            activate.setTextColor(Color.GREEN);
+            onOff.setImageResource(R.drawable.buttonon3);
+
+        }
         onOff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (on_off)
                 {
-                    on_off = false;
-                 //   onOff.startAnimation(animation);
-                    onOff.setImageResource(R.drawable.buttonoff);
+                  off();
+                  on_off = false;
+                    try {
+                        sendBroadcast(new Intent("stopService").putExtra("real", false));
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
+
                 }
                 else
                 {
+                    on();
                     on_off = true;
-                   // onOff.startAnimation(animation);
-                    onOff.setImageResource(R.drawable.buttonon3);
-                   // onOff.setAnimation(null);
+                    startService(new Intent(getApplicationContext(),BackgroundService.class));
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean("Activation",true);
+                    editor.commit();
                 }
-                //startActivity(new Intent(MainActivity.this,LivePreviewActivity.class)
-            //            .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-             //   MainActivity.this.finish();
-             //  startService(new Intent(getApplicationContext(),BackgroundService.class));
-                //AlarmManager alarmManager = (AlarmManager)getApplicationContext().getSystemService(Context.ALARM_SERVICE);
-
             }
         });
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this)) {
-           requestPerms();
-        }
+        Initialize();
+        noOfBlinks.setOnClickListener(this);
+        Ntype.setOnClickListener(this);
+        duration.setOnClickListener(this);
+    }
+
+    private void Initialize() {
+        noOfBlinksOption.setText(sharedPreferences.getString("noOfBlinks",getString(R.string.tenB)));
+        durationOption.setText(sharedPreferences.getString("duration",getString(R.string.twenty)));
+        typeOption.setText(sharedPreferences.getString("notifeye","Normal"));
+    }
+
+    private void on() {
+
+        onOff.setImageResource(R.drawable.buttonon3);
+        activate.setText(R.string.activated);
+        activate.setTextColor(Color.GREEN);
+    }
+
+    private void off() {
+        onOff.setImageResource(R.drawable.buttonoff);
+        activate.setText(R.string.tap_to_activate_notifeye);
+        activate.setTextColor(Color.GRAY);
     }
 
     private void requestPerms() {
@@ -93,13 +140,70 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        on_off = sharedPreferences.getBoolean("Activation",false);
+        if (on_off)
+            on();
+        else
+            off();
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
+      //  on_off = sharedPreferences.getBoolean("Activation",false);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    public void onClick(View view) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment fragment = fragmentManager.findFragmentByTag("OptionsDialog");
+        if (fragment !=null)
+            fragmentManager.beginTransaction().remove(fragment).commit();
+        dialogBox box = new dialogBox();
+        Bundle data = new Bundle();
+        switch (view.getId())
+        {
+            case R.id.no_of_blinks:
+                data.putString("Type","noOfBlinks");
+                box.setArguments(data);
+                box.show(fragmentManager,"OptionsDialog");
+                break;
+
+            case R.id.set_duration:
+                data.putString("Type","duration");
+                box.setArguments(data);
+                box.show(fragmentManager,"OptionsDialog");
+                break;
+
+            case R.id.type:
+                data.putString("Type","notifeye");
+                box.setArguments(data);
+                box.show(fragmentManager,"OptionsDialog");
+                break;
+
+        }
+    }
+
+    @Override
+    public void onOptionChanged(String tag) {
+
+        Initialize();
+    }
+
+    public class serviceStoppedBroadcast extends BroadcastReceiver
+    {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            off();
+        }
     }
 
 }

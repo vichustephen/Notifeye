@@ -3,11 +3,24 @@
     <string name="snooze_disabled">Snooze disabled</string>
     <string name="set_snooze_time">Set snooze time</string>
     <string name="show_notification">Show Notification</string>
-    <string name="set_number_of_blinks">Set Number Of Blinks</string>
+    <string name="set_number_of_blinks">Set number of Blinks</string>
     <string name="tap_to_activate_notifeye">Tap to activate notifeye</string>
-    <string name="set_duration">Set duration</string>
+    <string name="set_duration">Set time interval</string>
     <string name="x_blinks">X blinks</string>
     <string name="x_minutes">X minutes</string>
     <string name="blink_info">Please look at the camera and blink slowly.There must be an interval of atleast 2 seconds per blink for accurate detection</string>
     <string name="blink_screen_info">Please look at the camera and start blinking slowly</string>
+    <string name="activated">Notifeye is running ....</string>
+    <string name="skip"><![CDATA[Skip ->]]></string>
+    <string name="normal_info">Please blink your eye 20 times for twenty seconds</string>
+    <string name="ok">OK</string>
+    <string name="custom_value">Custom value</string>
+    <string name="n">Normal</string>
+    <string name="real">Real Time Detetction(Beta)</string>
+    <string name="ten">10 Minutes</string>
+    <string name="twenty">20 Minutes</string>
+    <string name="thirty">30 Minutes</string>
+    <string name="tenB">10 Blinks</string>
+    <string name="fifteenB">15 Blinks</string>
+    <string name="twentyB">20 Blinks</string>
 </resources>

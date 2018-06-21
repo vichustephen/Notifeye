@@ -22,6 +22,17 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="140dp"
-        android:text="Please blink your eye 20 times for twenty seconds" />
+        android:text="@string/normal_info" />
+    <Button
+        android:id="@+id/skipNormal"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="20dp"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/button_deisgn"
+        android:text="@string/skip"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textSize="16sp" />
 
 </RelativeLayout>
