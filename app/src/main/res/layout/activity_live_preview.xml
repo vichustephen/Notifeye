@@ -30,28 +30,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|bottom"
-        android:layout_marginBottom="70dp"
+        android:layout_marginBottom="80dp"
         android:text="X blinks to go"
-        android:textColor="@color/backgroundBlack"
-        android:textSize="13sp" />
+        android:textColor="@android:color/white"
+        android:textSize="17sp" />
 
     <TextView
         android:layout_width="330dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center|bottom"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="130dp"
         android:layout_marginStart="30dp"
         android:text="@string/blink_screen_info"
-        android:textColor="@color/backgroundBlack"
-        android:textSize="13sp" />
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
 
     <ImageView
-        android:layout_marginStart="20dp"
-        android:layout_marginBottom="100dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        app:srcCompat="@drawable/round_info_black_18" />
+        android:layout_marginBottom="150dp"
+        android:layout_marginStart="15dp"
+        app:srcCompat="@drawable/round_info_black_24" />
     <Button
         android:id="@+id/counts"
         android:layout_width="121dp"
@@ -73,4 +73,11 @@
         android:text="Skip ->"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textSize="16sp" />
+
+    <ImageView
+        android:layout_margin="15dp"
+        android:id="@+id/notice_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/round_info_black_36" />
 </FrameLayout>

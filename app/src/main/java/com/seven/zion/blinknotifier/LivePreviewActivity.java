@@ -1,14 +1,17 @@
 package com.seven.zion.blinknotifier;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat.OnRequestPermissionsResultCallback;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -25,7 +28,10 @@ public final class LivePreviewActivity extends AppCompatActivity implements Face
     float Height,Width;
     private Button countsView,skip;
     private TextView toGo;
+    SharedPreferences sharedPreferences;
     private int Originalcount = 0,givenCount = 20;
+    private  boolean noticeBox;
+    private ImageView noticeVIew;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +41,15 @@ public final class LivePreviewActivity extends AppCompatActivity implements Face
         preview = (CameraSourcePreview) findViewById(R.id.firePreview);
         skip = (Button)findViewById(R.id.skip);
         toGo = (TextView)findViewById(R.id.toGo);
+        noticeVIew = (ImageView)findViewById(R.id.notice_view);
+        sharedPreferences = getApplicationContext().getSharedPreferences("notifeye",0);
+        String times = sharedPreferences.getString("noOfBlinks","15 Blinks");
+        givenCount = Integer.parseInt(times.substring(0,2).trim());
+        times = String.format(Locale.getDefault(),"%d",givenCount)+ getString(R.string.to_go);
+       noticeBox= sharedPreferences.getBoolean("showNotice",true);
+        toGo.setText(times);
+        if (noticeBox)
+            showNotice();
         if (preview == null) {
             Log.d(TAG, "Preview is null");
         }
@@ -43,14 +58,33 @@ public final class LivePreviewActivity extends AppCompatActivity implements Face
             Log.d(TAG, "graphicOverlay is null");
         }
         countsView = (Button) findViewById(R.id.counts);
-        createCameraSource(selectedModel);
+             createCameraSource(selectedModel);
+                startCameraSource();
         skip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 LivePreviewActivity.this.finish();
             }
         });
+        noticeVIew.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showNotice();
+            }
+        });
 
+    }
+
+    private void showNotice() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("This screen will now start to detect your eye blinks. " +
+                "Start blinking slowly with an interval of atleast 2 seconds per blink. " +
+                "For accurate detection please close your eyes for a second and open and that will be " +
+                "counted as a blink.").setTitle("Notice").setIcon(R.drawable.round_info_black_18)
+                .setNegativeButton("Start",null).create().show();
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("showNotice",false);
+        editor.commit();
     }
 
 
@@ -120,12 +154,22 @@ public final class LivePreviewActivity extends AppCompatActivity implements Face
             sendBroadcast(new Intent("stopService").putExtra("real",true));
         }
     }
+
+
     @Override
     public void onCountDetected() {
         Originalcount++;
+        givenCount--;
+        String c = String.format(Locale.getDefault(),"%d",givenCount) + " blink(s) to go !";
+        toGo.setText(c);
         countsView.setText(String.format(Locale.getDefault(),"%d",Originalcount));
-        if (Originalcount >= givenCount)
+        if (givenCount == 0)
             LivePreviewActivity.this.finish();
 
+    }
+
+    @Override
+    public void onBackPressed() {
+       // super.onBackPressed();
     }
 }

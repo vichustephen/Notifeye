@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#6d6d6e</color>
-    <color name="colorPrimaryDark">#2ebbe6</color>
+    <color name="colorPrimaryDark">#464649</color>
     <color name="colorAccent">#6480ed</color>
     <color name="backgroundWhite">#ffffff</color>
     <color name="backgroundBlack">#000000</color>
     <color name="option_color">#616161</color>
+    <color name="bar1">#e40808</color>
+    <color name="bar2">#0331ff</color>
+    <color name="bar3">#ffd000</color>
+    <color name="bar4">#03ff3a</color>
 </resources>

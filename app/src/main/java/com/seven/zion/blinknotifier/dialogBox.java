@@ -50,13 +50,15 @@ public class dialogBox extends DialogFragment {
             case "notifeye":
                 bu1.setText(R.string.n);
                 bu2.setText(R.string.real);
-                bu3.setVisibility(View.GONE);
+                bu3.setText(R.string.notify_only);
                 custom.setVisibility(View.GONE);
                 option = preferences.getString("notifeye","Normal");
                 if (option.equals("Normal"))
                     bu1.setChecked(true);
-                else
+                else if (option.equals("Real Time Detection(Beta"))
                     bu2.setChecked(true);
+                else
+                    bu3.setChecked(true);
                 break;
             case "duration":
                 bu1.setText(R.string.ten);
@@ -92,8 +94,10 @@ public class dialogBox extends DialogFragment {
                         SharedPreferences.Editor editor = preferences.edit();
                         if (group.getCheckedRadioButtonId()==R.id.but1)
                             editor.putString("notifeye","Normal");
-                        else
+                        else if (group.getCheckedRadioButtonId()==R.id.but2)
                             editor.putString("notifeye","Real Time Detection(Beta)");
+                        else
+                            editor.putString("notifeye","Notification Only");
 
                         editor.commit();
                         listener.onOptionChanged(TAG);
