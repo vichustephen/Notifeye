@@ -38,6 +38,7 @@ public final class LivePreviewActivity extends AppCompatActivity implements Face
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate");
         setContentView(R.layout.activity_live_preview);
+        getSupportActionBar().hide();
         preview = (CameraSourcePreview) findViewById(R.id.firePreview);
         skip = (Button)findViewById(R.id.skip);
         toGo = (TextView)findViewById(R.id.toGo);

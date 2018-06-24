@@ -3,8 +3,8 @@
     package="com.seven.zion.blinknotifier">
 
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -31,8 +31,12 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".InfoActivity">
-        </activity>
+        <activity android:name=".InfoActivity"></activity>
+
+        <receiver
+            android:name=".snoozeReceiver"
+            android:enabled="true"
+            android:exported="true"></receiver>
     </application>
 
 </manifest>

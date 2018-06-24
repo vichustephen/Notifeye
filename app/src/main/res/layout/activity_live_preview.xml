@@ -52,14 +52,16 @@
         android:layout_marginBottom="150dp"
         android:layout_marginStart="15dp"
         app:srcCompat="@drawable/round_info_black_24" />
+
     <Button
         android:id="@+id/counts"
         android:layout_width="121dp"
         android:layout_height="24dp"
         android:layout_gravity="bottom|center_horizontal"
-        android:background="@drawable/button_deisgn"
         android:layout_marginBottom="30dp"
+        android:background="@drawable/button_deisgn"
         android:text="0"
+        android:textColor="@android:color/background_light"
         android:textSize="18sp" />
 
     <Button
@@ -72,6 +74,7 @@
         android:background="@drawable/button_deisgn"
         android:text="Skip ->"
         android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textColor="@android:color/background_light"
         android:textSize="16sp" />
 
     <ImageView

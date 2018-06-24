@@ -3,6 +3,7 @@ package com.seven.zion.blinknotifier;
 import android.Manifest;
 import android.app.ActivityManager;
 import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -145,6 +146,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         noOfBlinksOption.setText(sharedPreferences.getString("noOfBlinks",getString(R.string.tenB)));
         durationOption.setText(sharedPreferences.getString("duration",getString(R.string.twenty)));
         typeOption.setText(sharedPreferences.getString("notifeye","Normal"));
+        snoozeOption.setText(sharedPreferences.getString("snoozeSettings",getString(R.string.snooze_disabled)));
     }
 
     private void on() {
@@ -169,6 +171,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(getApplicationContext(),"Need Camera permission for Real time blink detection"
                         ,Toast.LENGTH_LONG).show();
                MainActivity.this.finish();
+            }
+            else
+            {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("This application was mainly developed under the concept of" +
+                        " the 20-20-20 rule.The rule is : Every 20 minutes, look at something 20 feet away for 20 seconds." +
+                        "Most of the smartphone users overuse their smartphones by viewing the " +
+                        "screen continuously for hours " +
+                        "and this continuous effect could damage your eyes.To prevent it ,this application will " +
+                        "notify you every 20 minutes to blink your eyes and look away from the screen.").
+                        setTitle("Do you know ?").setIcon(R.drawable.round_info_black_18)
+                        .setNegativeButton("OK",null).create().show();
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean("Intro",false);
+                editor.commit();
             }
 
         }
@@ -268,12 +285,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void pickTime() {
-        Calendar c = Calendar.getInstance();
+
+        Intent intent = new Intent(getApplicationContext(),snoozeReceiver.class);
+       final PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),1,intent,0);
+        final Calendar c = Calendar.getInstance();
         int hour = c.get(Calendar.HOUR_OF_DAY),minute = c.get(Calendar.MINUTE);
         TimePickerDialog timePickerDialog = new TimePickerDialog(MainActivity.this,
                 TimePickerDialog.THEME_DEVICE_DEFAULT_LIGHT,new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                if (isMyServiceRunning(BackgroundService.class))
+                {
+                    stopService(new Intent(MainActivity.this,BackgroundService.class));
+                    off();
+                }
                 String m;
                 if (minute<=9)
                    m = "0"+String.format(Locale.getDefault(),"%d",minute);
@@ -283,13 +308,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String s = "Snoozing until "+ String.format(Locale.getDefault(),"%d",hourOfDay)
                         +" : "+ m;
                 snoozeOption.setText(s);
+                c.setTimeInMillis(System.currentTimeMillis());
+                c.set(Calendar.HOUR_OF_DAY,hourOfDay);
+                c.set(Calendar.MINUTE,minute);
                 AlarmManager alarmMgr = (AlarmManager)getSystemService(ALARM_SERVICE);
+                alarmMgr.set(AlarmManager.RTC,c.getTimeInMillis(),pendingIntent);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("snoozeSettings",s);
+                editor.commit();
+
             }
         },hour,minute,false);
         timePickerDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialog) {
                 snoozeOption.setText(getString(R.string.snooze_disabled));
+                AlarmManager alarmMgr = (AlarmManager)getSystemService(ALARM_SERVICE);
+                if (alarmMgr !=null)
+                    alarmMgr.cancel(pendingIntent);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("snoozeSettings",getString(R.string.snooze_disabled));
+                editor.commit();
             }
         });
         timePickerDialog.show();

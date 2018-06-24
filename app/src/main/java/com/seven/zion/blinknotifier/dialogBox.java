@@ -55,7 +55,7 @@ public class dialogBox extends DialogFragment {
                 option = preferences.getString("notifeye","Normal");
                 if (option.equals("Normal"))
                     bu1.setChecked(true);
-                else if (option.equals("Real Time Detection(Beta"))
+                else if (option.equals("Real Time Detection(Beta)"))
                     bu2.setChecked(true);
                 else
                     bu3.setChecked(true);

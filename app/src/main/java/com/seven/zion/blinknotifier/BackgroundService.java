@@ -85,6 +85,8 @@ public class BackgroundService extends Service {
         registerReceiver(NotificationCast,new IntentFilter("notifyCast"));
         if (notificationShow)
              showNotification();
+        if(normalBlink == 2)
+            showNotification();
         skip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -176,10 +178,10 @@ public class BackgroundService extends Service {
                     else
                         v.vibrate(1000);
                     windowManager.removeView(exerciseView);
-                    timer.start();
                 }
                 if (normalBlink == 2)
                     managerCompat.cancel(NOTIFY_ID);
+                timer.start();
             }
         };
 
@@ -239,7 +241,7 @@ public class BackgroundService extends Service {
         Log.i("Task","Removed");
         timer.cancel();
         timer2.cancel();
-        if (notificationShow) {
+        if (notificationShow || normalBlink == 2) {
             NotificationManagerCompat managerCompat = NotificationManagerCompat.from(getApplicationContext());
             managerCompat.cancel(NOTIFY_ID);
         }
@@ -276,7 +278,7 @@ public class BackgroundService extends Service {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                if (notificationShow) {
+                if (notificationShow || normalBlink ==2) {
                     NotificationManagerCompat managerCompat = NotificationManagerCompat.from(getApplicationContext());
                     managerCompat.cancel(NOTIFY_ID);
                 }
