@@ -1,6 +1,6 @@
 package com.seven.zion.blinknotifier;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Log;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.ml.vision.FirebaseVision;
@@ -27,9 +27,9 @@ public class FaceDetectionProcessor extends VisionProcessorBase<List<FirebaseVis
       this.detects = detects;
     FirebaseVisionFaceDetectorOptions options =
         new FirebaseVisionFaceDetectorOptions.Builder()
-            .setClassificationType(FirebaseVisionFaceDetectorOptions.ALL_CLASSIFICATIONS)
-            .setLandmarkType(FirebaseVisionFaceDetectorOptions.ALL_LANDMARKS)
-            .setTrackingEnabled(true)
+            .setClassificationMode(FirebaseVisionFaceDetectorOptions.ALL_CLASSIFICATIONS)
+            .setLandmarkMode(FirebaseVisionFaceDetectorOptions.ALL_LANDMARKS)
+            .setContourMode(1)
             .build();
 
     detector = FirebaseVision.getInstance().getVisionFaceDetector(options);

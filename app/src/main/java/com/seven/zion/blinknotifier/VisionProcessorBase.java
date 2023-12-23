@@ -2,7 +2,7 @@ package com.seven.zion.blinknotifier;
 
 import android.graphics.Bitmap;
 import android.media.Image;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;

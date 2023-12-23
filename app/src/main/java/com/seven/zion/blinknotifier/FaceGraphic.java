@@ -9,7 +9,6 @@ import com.google.firebase.ml.vision.face.FirebaseVisionFace;
 import com.google.firebase.ml.vision.face.FirebaseVisionFaceLandmark;
 import com.seven.zion.blinknotifier.GraphicOverlay.Graphic;
 
-import static com.google.firebase.ml.vision.face.FirebaseVisionFaceLandmark.BOTTOM_MOUTH;
 
 public class FaceGraphic extends Graphic {
   private static final float FACE_POSITION_RADIUS = 10.0f;
