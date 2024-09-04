@@ -49,7 +49,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
         stoppedBroadcast = new serviceStoppedBroadcast();
-        registerReceiver(stoppedBroadcast,new IntentFilter("serviceStopped"));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            registerReceiver(stoppedBroadcast,new IntentFilter("serviceStopped"), Context.RECEIVER_NOT_EXPORTED);
+        }
         onOff = (ImageView) findViewById(R.id.OnOffbutton);
         Ntype = (TextView)findViewById(R.id.type);
         typeOption = (TextView)findViewById(R.id.type_option);
@@ -68,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             requestPerms();
         }
         if (Build.VERSION.SDK_INT>= Build.VERSION_CODES.M ) {
-            if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.CAMERA)
+            if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA)
                     != PackageManager.PERMISSION_GRANTED)
                 requestPermissions(new String[]{Manifest.permission.CAMERA}, 101);
         }
@@ -287,7 +289,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void pickTime() {
 
         Intent intent = new Intent(getApplicationContext(),snoozeReceiver.class);
-       final PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),1,intent,0);
+       final PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),1,intent, PendingIntent.FLAG_IMMUTABLE);
         final Calendar c = Calendar.getInstance();
         int hour = c.get(Calendar.HOUR_OF_DAY),minute = c.get(Calendar.MINUTE);
         TimePickerDialog timePickerDialog = new TimePickerDialog(MainActivity.this,

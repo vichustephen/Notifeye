@@ -99,7 +99,7 @@ public class BackgroundService extends Service {
         bar = (SmoothProgressBar) exerciseView.findViewById(R.id.rcBar);
         String times = sharedPreferences.getString("duration","20 Minutes");
         int givenCount = Integer.parseInt(times.substring(0,2).trim());
-        timer = new CountDownTimer(1000*6,1000) {
+        timer = new CountDownTimer(1000*5,1000) {
             @Override
             public void onTick(long l) {
                 long minutes = TimeUnit.MILLISECONDS.toMinutes(l) - TimeUnit.HOURS.toMinutes(
@@ -111,6 +111,7 @@ public class BackgroundService extends Service {
                                 seconds + " Second(s) ");
                         managerCompat.notify(NOTIFY_ID, notification.build());
                     }
+                    Log.e("Debug:"," "+minutes + "S"+seconds);
             }
 
             @Override
@@ -140,7 +141,9 @@ public class BackgroundService extends Service {
                     timer2.start();
                 }
                 else if (normalBlink==1) {
-                    startActivity(new Intent(BackgroundService.this, LivePreviewActivity.class));
+                    Intent newLiveActivity = new Intent(BackgroundService.this, LivePreviewActivity.class);
+                    newLiveActivity.addFlags((Intent.FLAG_ACTIVITY_NEW_TASK));
+                    startActivity(newLiveActivity);
                     Vibrator v = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
                         v.vibrate(VibrationEffect.createOneShot(1000,VibrationEffect.DEFAULT_AMPLITUDE));
@@ -190,7 +193,8 @@ public class BackgroundService extends Service {
     private void showNotification() {
         createNotificationChannel();
         broadcast = PendingIntent.getBroadcast(getApplicationContext(), 0,
-                new Intent("stopService").putExtra("real", false), PendingIntent.FLAG_UPDATE_CURRENT);
+                new Intent("stopService").putExtra("real", false), PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
         Notification.Action action = new Notification.Action(R.drawable.ic_launcher_background, "STOP", broadcast);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             notification = new Notification.Builder(getApplicationContext(), CHANNEL_ID)

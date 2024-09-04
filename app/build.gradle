@@ -1,13 +1,21 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        release {
+            storeFile file('D:\\workspace\\AndroidProjects\\Notifeye\\keys\\defaultKey.jks')
+            storePassword 'notifeye'
+            keyAlias 'key0'
+            keyPassword 'notifeye'
+        }
+    }
     compileSdkVersion 34
     defaultConfig {
         applicationId "com.seven.zion.blinknotifier"
         minSdkVersion 21
         targetSdkVersion 34
-        versionCode 98
-        versionName "0.98.beta"
+        versionCode 101
+        versionName "0.101.beta"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         multiDexEnabled true
     }
